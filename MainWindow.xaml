@@ -1,0 +1,79 @@
+﻿<Window x:Class="ArtistArtDownloader.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ArtistArtDownloader"
+        xmlns:vm="clr-namespace:ArtistArtDownloader.ViewModels"
+        mc:Ignorable="d"
+        Title="Artist art downloader"
+        MinHeight="300"
+        MinWidth="450"
+        Height="300"
+        Width="450"
+        Icon="/Images/music note.png"
+        Loaded="Window_Loaded">
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <ContextMenu x:Key="DgContextMenu" 
+             DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}">
+            <MenuItem Name="MenuItemDeleteArtwork" Header="Delete existing artwork..." Click="MenuItemDeleteArtwork_Click"/>
+        </ContextMenu>
+    </Window.Resources>
+    <DockPanel Name="testDock">
+        <StatusBar Name="StatusBarControl" VerticalAlignment="Bottom" BorderThickness="1" BorderBrush="Gray" DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock Name="lblCursorPosition" Text="{Binding Path=StatusBarText}" />
+            </StatusBarItem>
+        </StatusBar>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+            </Grid.RowDefinitions>
+            <GroupBox Header="Root folder" Height="55" Grid.Row="0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="80"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Path:" VerticalAlignment="Center" Grid.Column="0"/>
+                    <TextBox Text="{Binding SelectedFolder}" TextWrapping="Wrap" Height="20" Name="TextboxTargetFolder" IsReadOnly="True" Background="LightGray" Grid.Column="1"/>
+                    <Button Name="ButtonBrowse" Content="Browse..." Height="20" Width="60" Click="ButtonBrowse_Click" Grid.Column="2" />
+                </Grid>
+
+            </GroupBox>
+            <GroupBox Header="List of Subfolders" Grid.Row="1">
+                <Grid>
+                    <DataGrid Name="gridSubfolders"
+                              MinHeight="100"
+                              Background="LightGray"
+                              ItemsSource="{Binding ArtistList}"
+                              GridLinesVisibility="None"
+                              AutoGenerateColumns="False"
+                              EnableRowVirtualization="True"
+                              EnableColumnVirtualization="True"
+                              IsReadOnly="True"
+                              ContextMenu="{StaticResource DgContextMenu}">
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                            </Style>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </GroupBox>
+            <Button Name="ButtonStart" Content="Start" HorizontalAlignment="Center" Height="20" Width="60" Click="ButtonStart_Click" Grid.Row="2"/>
+        </Grid>
+
+    </DockPanel>
+
+</Window>

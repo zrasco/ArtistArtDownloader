@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\loading-buffering.gif" />
+    <None Remove="Images\magnifying-glass.png" />
+    <None Remove="Images\not-found.jpg" />
+    <None Remove="music note.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GScraper" Version="0.5.3" />
+    <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\loading-buffering.gif" />
+    <Resource Include="Images\magnifying-glass.png" />
+    <Resource Include="Images\music note.png" />
+    <Resource Include="Images\not-found.jpg" />
+  </ItemGroup>
+
+</Project>

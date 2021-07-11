@@ -1,0 +1,64 @@
+﻿<Window x:Class="ArtistArtDownloader.ResultsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ArtistArtDownloader"
+        xmlns:vm="clr-namespace:ArtistArtDownloader.ViewModels"
+        mc:Ignorable="d"
+        Title="Google Image Search Results" Height="450" Width="800"
+        Loaded="Window_Loaded"
+        Closed="Window_Closed"
+        WindowStartupLocation="CenterScreen"
+        Icon="/Images/magnifying-glass.png">
+    <Window.DataContext>
+        <vm:ResultsWindowViewModel/>
+    </Window.DataContext>
+    <DockPanel>
+        <GroupBox Header="{Binding ResultsHeader}" DockPanel.Dock="Top" Height="60">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="80"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Search term: " VerticalAlignment="Center" Grid.Column="0"></TextBlock>
+                <TextBox Name="TextBoxSearchTerm" Text="{Binding SearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Height="21"></TextBox>
+                <Button Content="Search!" Grid.Column="2" Height="21" Width="70" Click="ButtonSearch_Click" IsDefault="True"/>
+            </Grid>
+        </GroupBox>
+        <Grid DockPanel.Dock="Bottom" Height="50">
+			<Grid.RowDefinitions>
+				<RowDefinition Height=".5*"/>
+				<RowDefinition Height=".5*"/>
+			</Grid.RowDefinitions>
+            <Button Grid.Row="0" Name="ButtonStop" Click="ButtonStop_Click" Content="Stop!!" VerticalAlignment="Center" HorizontalAlignment="Center" Width="50" Height="21"/>
+			<StatusBar Grid.Row="1" BorderBrush="LightGray" BorderThickness="1">
+                <StatusBarItem>
+                    <TextBlock Name="StatusBarControl" Text="{Binding StatusBarText}"/>
+                </StatusBarItem>
+			</StatusBar>
+        </Grid>
+        <ScrollViewer Name="ImageScroller" VerticalScrollBarVisibility="Auto">
+            <ItemsControl Name="ImageGrid" ItemsSource="{Binding ImageResults}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="10"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <Button Tag="{Binding}" Click="ButtonImage_Click" Cursor="Hand" MouseEnter="Button_MouseEnter">
+                                <Image Source="{Binding ThumbnailURL}" />
+                            </Button>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        
+        
+
+    </DockPanel>
+</Window>
